@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</head>
+<body>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h4 class="cart-section-title mb-30">Biiling Details</h4>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="first_name" class="form-label">First name</label>
+                        <input value="{{ billing_first_name }}" type="text" class="form-control" id="first_name" name="billing_first_name" pattern="[\u0E00-\u0E7Fa-zA-Z]*" placeholder="First name" required>
+                        <div class="invalid-feedback">
+                            Please enter valid First name
+                        </div>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="last_name" class="form-label">Last name</label>
+                        <input value="{{ billing_last_name }}" type="text" class="form-control" id="last_name" name="billing_last_name" pattern="[\u0E00-\u0E7Fa-zA-Z]*" placeholder="Last name" required>
+                        <div class="invalid-feedback">
+                            Please enter valid Last name
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-lg-6">
+                        <label for="phone" class="form-label">Phone</label>
+                        <input value="{{ order_view.billing_phone_number }}" type="text" class="form-control" name="billing_phone" id="phone" pattern="[0]{1}[0-9]{9}" placeholder="Phone" required>
+                        <div class="invalid-feedback">
+                            Please enter valid Phone number
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label for="email" class="form-label">Email address</label>
+                        <input value="{{ order_view.billing_email }}" type="email" class="form-control" name="billing_email_address" id="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="Email address" required>
+                        <div class="invalid-feedback">
+                            Please enter valid Email address
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-lg-6">
+                        <label for="street" class="form-label">Street Address</label>
+                        <input value="{{ order_view.billing_address }}" type="text" class="form-control" name="billing_street" id="street" placeholder="House number and Street name" required>
+                        <div class="invalid-feedback">
+                            Please enter Address
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label for="province" class="form-label">Province / State</label>
+                        <select class="form-control province" name="billing_province" id="province" required>
+                            
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select Province / State
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row shipping_calculator">
+                    <div class="form-group col-lg-6">
+                        <label for="district" class="form-label">District / City</label>
+                        <select class="form-control district" name="billing_district" id="district" disabled required>
+                            
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select District / City
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-6">
+                        <label for="subdistrict" class="form-label">Subdistrict</label>
+                        <select class="form-control subdistrict" name="billing_subdistrict" id="subdistrict" disabled required>
+                            <option value="" disabled selected>Select a subdistrict</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select Subdistrict
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row shipping_calculator">
+                    <div class="form-group col-lg-6">
+                        <label for="ZIP" class="form-label">Postcode / ZIP</label>
+                        <input value="{{ order_view.billing_postal_code }}" type="text" class="form-control zipcode" name="billing_postal_code" id="ZIP" pattern="[0-9]{5}" placeholder="Postcode / ZIP"  required readonly>
+                        <div class="invalid-feedback">
+                            Please provide a valid Postcode / ZIP
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-6">
+                        <label for="country" class="form-label">Country</label>
+                        <select class="form-control" name="country" id="country" disabled>
+                            <option value="Thailand">Thailand</option>
+                        </select>
+                    </div>
+                </div>
+                        
+                <div class="form-check mb-10">
+                    <input class="form-check-input" type="checkbox" value="yes" name="is_difference_shipping" id="isDifferenceShipping">
+                    <label class="form-check-label" for="isDifferenceShipping">
+                        {% trans "Ship to a different address?" %}
+                    </label>
+                </div>
+            </div>
+
+            <div class="col-12 not-visible" id="shippingForm">
+                <h4 class="cart-section-title mb-30">Shipping Address</h4>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="shiping_first_name" class="form-label">First name</label>
+                        <input value="{{ shipping_first_name }}" type="text" class="form-control" id="shiping_first_name" name="shiping_first_name" pattern="[\u0E00-\u0E7Fa-zA-Z]*" placeholder="First name">
+                        <div class="invalid-feedback">
+                            Please enter valid First name
+                        </div>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="shiping_last_name" class="form-label">Last name</label>
+                        <input value="{{ shipping_last_name }}" type="text" class="form-control" id="shiping_last_name" name="shiping_last_name" pattern="[\u0E00-\u0E7Fa-zA-Z]*" placeholder="Last name">
+                        <div class="invalid-feedback">
+                            Please enter valid Last name
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-lg-12">
+                        <label for="shipping_phone" class="form-label">Phone</label>
+                        <input value="{{ order_view.shipping_phone_number }}" type="text" class="form-control" name="shipping_phone" id="shipping_phone" pattern="[0]{1}[0-9]{9}" placeholder="Phone">
+                        <div class="invalid-feedback">
+                            Please enter valid Phone number
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-lg-6">
+                        <label for="shipping_street" class="form-label">Street Address</label>
+                        <input value="{{ order_view.shipping_address }}" type="text" class="form-control" name="shipping_street" id="shipping_street" placeholder="House number and Street name">
+                        <div class="invalid-feedback">
+                            Please enter Address
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label for="shipping_province" class="form-label">Province / State</label>
+                        <select class="form-control province" id="shipping_province" name="shipping_province" >
+                            
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select Province / State
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row shipping_calculator">
+                    <div class="form-group col-lg-6">
+                        <label for="shipping_district" class="form-label">District / City</label>
+                        <select class="form-control district" name="shipping_district" id="shipping_district" disabled>
+                            
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select District / City
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-6">
+                        <label for="shipping_subdistrict" class="form-label">Subdistrict</label>
+                        <select class="form-control subdistrict" name="shipping_subdistrict" id="shipping_subdistrict" disabled>
+                            <option value="" disabled selected>Select a subdistrict</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select Subdistrict
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row shipping_calculator">
+                    <div class="form-group col-lg-6">
+                        <label for="shiipping_ZIP" class="form-label">Postcode / ZIP</label>
+                        <input type="text" class="form-control zipcode" name="shipping_postal_code" id="shiipping_ZIP" pattern="[0-9]{5}" placeholder="Postcode / ZIP" readonly>
+                        <div class="invalid-feedback">
+                            Please provide a valid Postcode / ZIP
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-6">
+                        <label for="shipping_country" class="form-label">Country</label>
+                        <select class="form-control" name="shipping_country" id="shipping_country" disabled>
+                            <option value="Thailand">{% trans "Thailand" %}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="form-group mb-30">
+                    <label for="additional_msg" class="form-label">Other note</label>
+                    <textarea rows="3" name="additional_msg" id="additional_msg" placeholder="Other note optional">{{ order_view.order_note }}</textarea>
+                </div>
+            </div>
+        <div class="row">
+            <div class="col-12 mt-4 mb-4">
+                <form id="billing-form">
+                    <div class="row mb-4">
+                      <div class="col-6 form-group">
+                        <label for="fullName">Full Name * </label>
+                        <input class="form-control" id="fullName" name="full_name" type="text">
+                      </div>
+                      <div class="col-6 form-group">
+                        <label for="email">Email * </label>
+                        <input class="form-control" id="email" name="billing_email" type="email">
+                      </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-6 form-group">
+                          <label for="phone">Phone * </label>
+                          <input class="form-control" id="phone" name="billing_phone" type="text">
+                        </div>
+                        <div class="col-6 form-group">
+                          <label for="city">City * </label>
+                            <select class="form-select" id="city" name="billing_city">
+                                <option value="" selected disabled>Please select</option>
+                                <option>Bangkok</option>
+                                <option>Nonthaburi</option>
+                                <option>Chiang Mai</option>
+                            </select>
+                        </div>
+                      </div>
+                    <button type="submit" class="btn btn-primary">Checkout</button>
+                  </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+<script>
+    $(function() {
+        $("#billing-form").validate({
+            rules: {
+                full_name: {
+                    required: true,
+                },
+                billing_email: {
+                    required: true,
+                },
+                billing_phone: {
+                    required: true,
+                },
+                billing_city: {
+                    required: true,
+                },
+            },
+            messages: {
+                full_name: "Please enter your full name!",
+                billing_email: "Please enter valid email",
+                billing_phone: "Please enter valid phone number",
+                billing_city: "Please select city",
+            },
+            onfocusout: function(element) {
+                $(element).valid();
+            },
+        });
+    });
+</script>
+
+</body>
+</html>
